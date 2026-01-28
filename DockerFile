@@ -30,4 +30,4 @@ ENV PORT=5000
 ENV NODE_ENV=production
 
 # start the application
-CMD ["npm", "index.ts"]
+CMD ["npm", "run", "start"]
