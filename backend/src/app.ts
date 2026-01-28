@@ -5,6 +5,7 @@ import messageRoutes from "./routes/messageRoutes";
 import chatRoutes from "./routes/chatRoutes";
 import { clerkMiddleware } from '@clerk/express'
 import { errorHandler } from "./middleware/errorHandler";
+import path from "path";
 
 const app = express();
 
@@ -27,5 +28,14 @@ app.use("/api/messages", messageRoutes);
 app.use("/api/chats", chatRoutes);
 
 // error handling middleware
-app.use(errorHandler)
+app.use(errorHandler);
+
+// server frontend in production
+if(process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../../web/dist")))
+
+  app.get("/{*any}", (req, res) => {
+    res.sendFile(path.join(__dirname,"../../web/dist/index.html"))
+  })
+}
 export default app;

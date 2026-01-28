@@ -1,0 +1,51 @@
+# ---------- Frontend (Bun) ----------
+FROM oven/bun:latest AS frontend
+
+WORKDIR /app/web
+
+COPY web/package.json web/bun.lock* ./
+RUN bun install --frozen-lockfile
+
+COPY web/ ./
+
+ARG VITE_CLERK_PUBLISHABLE_KEY
+ENV VITE_CLERK_PUBLISHABLE_KEY=$VITE_CLERK_PUBLISHABLE_KEY
+
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
+
+RUN bun run build
+
+
+# ---------- Backend (Node + npm) ----------
+FROM node:20-alpine AS backend
+
+WORKDIR /app/backend
+
+COPY backend/package.json backend/package-lock.json* ./
+RUN npm install --production
+
+COPY backend/ ./
+
+
+# ---------- Final Runtime Image ----------
+FROM node:20-alpine
+
+WORKDIR /app
+
+# copy backend
+COPY --from=backend /app/backend ./backend
+
+# copy frontend build
+COPY --from=frontend /app/web/dist ./web/dist
+
+# expose port
+EXPOSE 3000
+
+ENV PORT=3000
+ENV NODE_ENV=production
+
+WORKDIR /app/backend
+
+# start backend (change if your entry file is different)
+CMD ["node", "index.ts"]
