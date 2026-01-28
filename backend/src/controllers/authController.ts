@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
-import type { AuthRequest } from "../middleware/auth";
-import { User } from "../models/User";
+import type { AuthRequest } from "../middleware/auth.js";
+import { User } from "../models/User.js";
 import { clerkClient, getAuth } from "@clerk/express";
 
 

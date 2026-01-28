@@ -2,9 +2,9 @@ import { Socket, Server as SocketServer } from "socket.io";
 import { Server as HttpServer } from "http";
 import { verifyToken } from "@clerk/express";
 import mongoose from "mongoose";
-import { Message } from "../models/Message";
-import { Chat } from "../models/Chat";
-import { User } from "../models/User";
+import { Message } from "../models/Message.js";
+import { Chat } from "../models/Chat.js";
+import { User } from "../models/User.js";
 
 export const onlineUsers: Map<string, string> = new Map();
 

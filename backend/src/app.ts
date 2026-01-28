@@ -1,10 +1,10 @@
 import express from "express";
-import authRoutes from "./routes/authRoutes";
-import userRoutes from "./routes/userRoutes";
-import messageRoutes from "./routes/messageRoutes";
-import chatRoutes from "./routes/chatRoutes";
+import authRoutes from "./routes/authRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import messageRoutes from "./routes/messageRoutes.js";
+import chatRoutes from "./routes/chatRoutes.js";
 import { clerkMiddleware } from '@clerk/express'
-import { errorHandler } from "./middleware/errorHandler";
+import { errorHandler } from "./middleware/errorHandler.js";
 import path from "path";
 
 const app = express();
