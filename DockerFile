@@ -26,6 +26,7 @@ COPY backend/package.json backend/package-lock.json* ./
 RUN npm install
 
 COPY backend/ ./
+RUN npm run build
 
 
 # ---------- Final Runtime Image ----------
@@ -33,6 +34,7 @@ FROM node:20-alpine
 
 WORKDIR /app/backend
 
+COPY --from=backend-build /app/backend/dist ./dist
 COPY --from=backend-build /app/backend/package.json ./
 COPY --from=backend-build /app/backend/node_modules ./node_modules
 
